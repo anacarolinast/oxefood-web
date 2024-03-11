@@ -36,6 +36,7 @@ export default function FormCliente () {
                                     <InputMask
                                         required
                                         mask="999.999.999-99"
+                                        placeholder="___.___.___-__"
                                     /> 
                                 </Form.Input>
 
@@ -49,6 +50,7 @@ export default function FormCliente () {
                                     width={6}>
                                     <InputMask 
                                         mask="(99) 9999.9999"
+                                        placeholder="(__) _____-____"
                                     /> 
                                 </Form.Input>
 
@@ -58,6 +60,7 @@ export default function FormCliente () {
                                     width={6}>
                                     <InputMask 
                                         mask="(99) 9999.9999"
+                                        placeholder="(__) ____-____"
                                     /> 
                                 </Form.Input>
 
@@ -69,7 +72,7 @@ export default function FormCliente () {
                                     <InputMask 
                                         mask="99/99/9999" 
                                         maskChar={null}
-                                        placeholder="Ex: 20/03/1985"
+                                        placeholder="DD/MM/AAAA"
                                     /> 
                                 </Form.Input>
 

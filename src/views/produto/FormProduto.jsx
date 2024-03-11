@@ -1,6 +1,6 @@
 import React from "react";
 import InputMask from 'react-input-mask';
-import { Button, Container, Divider, Form, Icon, TextArea } from 'semantic-ui-react';
+import { Button, Container, Divider, Form, Icon } from 'semantic-ui-react';
 
 export default function FormProduto() {
 
@@ -12,7 +12,7 @@ export default function FormProduto() {
 
                 <Container textAlign='justified' >
 
-                    <h2> <span style={{ color: 'darkgray' }}> Cliente &nbsp;<Icon name='angle double right' size="small" /> </span> Cadastro </h2>
+                    <h2> <span style={{ color: 'darkgray' }}> Produto &nbsp;<Icon name='angle double right' size="small" /> </span> Cadastro </h2>
 
                     <Divider />
 
