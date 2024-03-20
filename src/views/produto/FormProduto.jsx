@@ -3,6 +3,7 @@ import InputMask from "react-input-mask";
 import { Button, Container, Divider, Form, Icon } from "semantic-ui-react";
 import MenuSistema from "../menuSistema/MenuSistema";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 export default function FormProduto() {
   const [titulo, setTitulo] = useState("");
@@ -111,6 +112,8 @@ export default function FormProduto() {
                 icon
                 labelPosition="left"
                 color="orange"
+                as={Link}
+                to="/list-produto"
               >
                 <Icon name="reply" />
                 Voltar

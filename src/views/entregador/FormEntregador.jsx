@@ -12,6 +12,7 @@ import {
 } from "semantic-ui-react";
 import MenuSistema from "../menuSistema/MenuSistema";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 export default function FormEntregador() {
   const [ufOptions, setUFOptions] = useState([]);
@@ -294,6 +295,8 @@ export default function FormEntregador() {
                   icon
                   labelPosition="left"
                   color="orange"
+                  as={Link}
+                  to="/list-entregador"
                 >
                   <Icon name="reply" />
                   Voltar
