@@ -12,7 +12,7 @@ class MenuSistema extends React.Component {
   render() {
     return (
       <>
-        <Menu icon='labeled' style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <Menu icon='labeled' style={{ display: "flex", alignItems: "center", gap: "50%" }}>
           <Menu>
             <MenuItem
               name='home'
