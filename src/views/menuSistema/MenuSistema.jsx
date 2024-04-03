@@ -12,7 +12,7 @@ class MenuSistema extends React.Component {
   render() {
     return (
       <>
-        <Menu icon='labeled' style={{ display: "flex", alignItems: "center", gap: "50%" }}>
+        <Menu icon='labeled' style={{ display: "flex", alignItems: "center", justifyContent: "space-evenly" }}>
           <Menu>
             <MenuItem
               name='home'
@@ -66,7 +66,7 @@ class MenuSistema extends React.Component {
               to="/list-cliente"
             >
               <Icon name='users' />
-              Lista de Clientes
+              Clientes
             </MenuItem>
 
             <MenuItem
@@ -77,7 +77,7 @@ class MenuSistema extends React.Component {
               to="/list-produto"
             >
               <Icon name='clipboard list' />
-              Lista de Produtos
+              Produtos
             </MenuItem>
 
             <MenuItem
@@ -88,7 +88,7 @@ class MenuSistema extends React.Component {
               to="/list-entregador"
             >
               <Icon name='truck' />
-              Lista de Entregadores
+              Entregadores
             </MenuItem>
 
           </Menu>
