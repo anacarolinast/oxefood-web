@@ -59,6 +59,17 @@ class MenuSistema extends React.Component {
             </MenuItem>
 
             <MenuItem
+              name='pedido'
+              active={this.state.activeItem === "pedido"}
+              onClick={this.handleItemClick}
+              as={Link}
+              to="/form-pedido"
+            >
+              <Icon name='box' />
+              Pedido
+            </MenuItem>
+
+            <MenuItem
               name='list-cliente'
               active={this.state.activeItem === "list-cliente"}
               onClick={this.handleItemClick}
