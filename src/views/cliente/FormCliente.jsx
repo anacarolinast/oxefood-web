@@ -4,6 +4,7 @@ import { Button, Container, Divider, Form, Icon } from "semantic-ui-react";
 import MenuSistema from "../menuSistema/MenuSistema";
 import axios from "axios";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import {mensagemErro, notifyError, notifySuccess } from '../../views/util/Util';
 
 export default function FormCliente() {
   const [nome, setNome] = useState("");
@@ -44,20 +45,28 @@ export default function FormCliente() {
       axios
         .put("http://localhost:8080/api/cliente/" + idCliente, clienteRequest)
         .then((response) => {
-          console.log("Cliente alterado com sucesso.");
+          notifySuccess('Cliente alterado com sucesso.')
         })
         .catch((error) => {
-          console.error("Erro ao alterar um cliente:", error);
+          if (error.response) {
+            notifyError(error.response.data.message)
+            } else {
+            notifyError(mensagemErro)
+            }             
         });
     } else {
       axios
         .post("http://localhost:8080/api/cliente", clienteRequest)
         .then((response) => {
-          console.log("Cliente cadastrado com sucesso.");
+          notifySuccess('Cliente cadastrado com sucesso.')
           navigate("/form-endereco-cliente", { state: { idCliente: response.data.id } });
         })
         .catch((error) => {
-          console.error("Erro ao incluir o cliente:", error);
+          if (error.response) {
+            notifyError(error.response.data.message)
+            } else {
+            notifyError(mensagemErro)
+            } 
         });
     }
   }

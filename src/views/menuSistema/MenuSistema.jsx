@@ -37,17 +37,6 @@ class MenuSistema extends React.Component {
             </MenuItem>
 
             <MenuItem
-              name='endereco-cliente'
-              active={this.state.activeItem === "endereco-cliente"}
-              onClick={this.handleItemClick}
-              as={Link}
-              to="/form-endereco-cliente"
-            >
-              <Icon name='map marker alternate' />
-              Endereço
-            </MenuItem>
-
-            <MenuItem
               name='produto'
               active={this.state.activeItem === "produto"}
               onClick={this.handleItemClick}
@@ -122,6 +111,17 @@ class MenuSistema extends React.Component {
             >
               <Icon name='clipboard list' />
               Produtos
+            </MenuItem>
+
+            <MenuItem
+              name='list-categoria-produto'
+              active={this.state.activeItem === "list-categoria-produto"}
+              onClick={this.handleItemClick}
+              as={Link}
+              to="/list-categoria-produto"
+            >
+              <Icon name='list' />
+              Categorias
             </MenuItem>
 
             <MenuItem
