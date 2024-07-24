@@ -1,54 +1,51 @@
-import axios from "axios"
-import React, { useEffect, useState } from "react"
-import { Link } from "react-router-dom"
-import { Button, Container, Divider, Header, Icon, Modal, Table } from "semantic-ui-react"
-import MenuSistema from "../menuSistema/MenuSistema"
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { Button, Container, Divider, Header, Icon, Modal, Table } from "semantic-ui-react";
+import MenuSistema from "../menuSistema/MenuSistema";
 
 export default function ListCliente() {
-  const [lista, setLista] = useState([])
+  const [lista, setLista] = useState([]);
   const [openModal, setOpenModal] = useState(false);
   const [idRemover, setIdRemover] = useState();
 
   function confirmaRemover(id) {
-    setOpenModal(true)
-    setIdRemover(id)
+    setOpenModal(true);
+    setIdRemover(id);
   }
 
   async function remover() {
-
     await axios.delete('http://localhost:8080/api/cliente/' + idRemover)
-    .then((response) => {
-
-        console.log('Cliente removido com sucesso.')
-
+      .then((response) => {
+        console.log('Cliente removido com sucesso.');
         axios.get("http://localhost:8080/api/cliente")
-        .then((response) => {
-            setLista(response.data)
-        })
-    })
-    .catch((error) => {
-        console.log('Erro ao remover um cliente.')
-    })
-    setOpenModal(false)
-}
+          .then((response) => {
+            setLista(response.data);
+          });
+      })
+      .catch((error) => {
+        console.log('Erro ao remover um cliente.');
+      });
+    setOpenModal(false);
+  }
 
   useEffect(() => {
-    carregarLista()
-  }, [])
+    carregarLista();
+  }, []);
 
   function carregarLista() {
     axios.get("http://localhost:8080/api/cliente").then((response) => {
-      setLista(response.data)
-    })
+      setLista(response.data);
+    });
   }
 
   function formatarData(dataParam) {
     if (dataParam === null || dataParam === "" || dataParam === undefined) {
-      return ""
+      return "";
     }
 
-    let arrayData = dataParam.split("-")
-    return arrayData[2] + "/" + arrayData[1] + "/" + arrayData[0]
+    let arrayData = dataParam.split("-");
+    return arrayData[2] + "/" + arrayData[1] + "/" + arrayData[0];
   }
 
   return (
@@ -73,11 +70,7 @@ export default function ListCliente() {
             <br />
             <br />
 
-            <Table
-              color='orange'
-              sortable
-              celled
-            >
+            <Table color='orange' sortable celled>
               <Table.Header>
                 <Table.Row>
                   <Table.HeaderCell>Nome</Table.HeaderCell>
@@ -94,9 +87,7 @@ export default function ListCliente() {
                   <Table.Row key={cliente.id}>
                     <Table.Cell>{cliente.nome}</Table.Cell>
                     <Table.Cell>{cliente.cpf}</Table.Cell>
-                    <Table.Cell>
-                      {formatarData(cliente.dataNascimento)}
-                    </Table.Cell>
+                    <Table.Cell>{formatarData(cliente.dataNascimento)}</Table.Cell>
                     <Table.Cell>{cliente.foneCelular}</Table.Cell>
                     <Table.Cell>{cliente.foneFixo}</Table.Cell>
                     <Table.Cell textAlign='center'>
@@ -107,13 +98,8 @@ export default function ListCliente() {
                         title='Clique aqui para editar os dados deste cliente'
                         icon
                       >
-                        <Link
-                          to='/form-cliente'
-                          state={{ id: cliente.id }}
-                          style={{ color: "green" }}
-                        >
-                          {" "}
-                          <Icon name='edit' />{" "}
+                        <Link to='/form-cliente' state={{ id: cliente.id }} style={{ color: "green" }}>
+                          <Icon name='edit' />
                         </Link>
                       </Button>{" "}
                       &nbsp;
@@ -126,6 +112,18 @@ export default function ListCliente() {
                         onClick={e => confirmaRemover(cliente.id)}
                       >
                         <Icon name='trash' />
+                      </Button>{" "}
+                      &nbsp;
+                      <Button
+                        inverted
+                        circular
+                        color='blue'
+                        title='Clique aqui para ver os endereços deste cliente'
+                        icon
+                      >
+                        <Link to={`/list-endereco-cliente/${cliente.id}`} style={{ color: "blue" }}>
+                          <Icon name='address card' />
+                        </Link>
                       </Button>
                     </Table.Cell>
                   </Table.Row>
@@ -133,12 +131,7 @@ export default function ListCliente() {
               </Table.Body>
             </Table>
           </div>
-          <Modal
-            basic
-            onClose={() => setOpenModal(false)}
-            onOpen={() => setOpenModal(true)}
-            open={openModal}
-          >
+          <Modal basic onClose={() => setOpenModal(false)} onOpen={() => setOpenModal(true)} open={openModal}>
             <Header icon>
               <Icon name='trash' />
               <div style={{ marginTop: '5%' }}> Tem certeza que deseja remover esse registro? </div>
@@ -155,5 +148,5 @@ export default function ListCliente() {
         </Container>
       </div>
     </div>
-  )
+  );
 }

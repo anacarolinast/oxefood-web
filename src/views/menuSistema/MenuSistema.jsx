@@ -37,6 +37,17 @@ class MenuSistema extends React.Component {
             </MenuItem>
 
             <MenuItem
+              name='endereco-cliente'
+              active={this.state.activeItem === "endereco-cliente"}
+              onClick={this.handleItemClick}
+              as={Link}
+              to="/form-endereco-cliente"
+            >
+              <Icon name='map marker alternate' />
+              Endereço
+            </MenuItem>
+
+            <MenuItem
               name='produto'
               active={this.state.activeItem === "produto"}
               onClick={this.handleItemClick}
@@ -45,6 +56,17 @@ class MenuSistema extends React.Component {
             >
               <Icon name='box' />
               Produto
+            </MenuItem>
+
+            <MenuItem
+              name='categoria'
+              active={this.state.activeItem === "categoria"}
+              onClick={this.handleItemClick}
+              as={Link}
+              to="/form-categoria"
+            >
+              <Icon name='list alternate' />
+              Categoria
             </MenuItem>
 
             <MenuItem
@@ -67,6 +89,17 @@ class MenuSistema extends React.Component {
             >
               <Icon name='box' />
               Pedido
+            </MenuItem>
+
+            <MenuItem
+              name='promocao'
+              active={this.state.activeItem === "promocao"}
+              onClick={this.handleItemClick}
+              as={Link}
+              to="/form-promocao"
+            >
+              <Icon name='gift' />
+              Promoção
             </MenuItem>
 
             <MenuItem
@@ -100,6 +133,17 @@ class MenuSistema extends React.Component {
             >
               <Icon name='truck' />
               Entregadores
+            </MenuItem>
+
+            <MenuItem
+              name='list-promocao'
+              active={this.state.activeItem === "list-promocao"}
+              onClick={this.handleItemClick}
+              as={Link}
+              to="/list-promocao"
+            >
+              <Icon name='gift' />
+              Promoções
             </MenuItem>
 
           </Menu>

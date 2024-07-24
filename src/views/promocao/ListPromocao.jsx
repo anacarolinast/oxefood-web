@@ -4,7 +4,7 @@ import { Link } from "react-router-dom"
 import { Button, Container, Divider, Header, Icon, Modal, Table } from "semantic-ui-react"
 import MenuSistema from "../menuSistema/MenuSistema"
 
-export default function ListProduto() {
+export default function ListPromocao() {
   const [lista, setLista] = useState([])
   const [openModal, setOpenModal] = useState(false);
   const [idRemover, setIdRemover] = useState();
@@ -16,18 +16,18 @@ export default function ListProduto() {
 
   async function remover() {
 
-    await axios.delete('http://localhost:8080/api/produto/' + idRemover)
+    await axios.delete('http://localhost:8080/api/promocao/' + idRemover)
     .then((response) => {
 
-        console.log('Produto removido com sucesso.')
+        console.log('Promoção removida com sucesso.')
 
-        axios.get("http://localhost:8080/api/produto")
+        axios.get("http://localhost:8080/api/promocao")
         .then((response) => {
             setLista(response.data)
         })
     })
     .catch((error) => {
-        console.log('Erro ao remover um produto.')
+        console.log('Erro ao remover uma promoção.')
     })
     setOpenModal(false)
 }
@@ -37,7 +37,7 @@ export default function ListProduto() {
   }, [])
 
   function carregarLista() {
-    axios.get("http://localhost:8080/api/produto").then((response) => {
+    axios.get("http://localhost:8080/api/promocao").then((response) => {
       setLista(response.data)
     })
   }
@@ -56,7 +56,7 @@ export default function ListProduto() {
       <MenuSistema />
       <div style={{ marginTop: "3%" }}>
         <Container textAlign='justified'>
-          <h2> Produtos </h2>
+          <h2> Promoções </h2>
           <Divider />
 
           <div style={{ marginTop: "4%" }}>
@@ -67,7 +67,7 @@ export default function ListProduto() {
               icon='clipboard outline'
               floated='right'
               as={Link}
-              to='/form-produto'
+              to='/form-promocao'
             />
             <br />
             <br />
@@ -81,39 +81,40 @@ export default function ListProduto() {
               <Table.Header>
                 <Table.Row>
                   <Table.HeaderCell>Título</Table.HeaderCell>
-                  <Table.HeaderCell>Código</Table.HeaderCell>
-                  <Table.HeaderCell>Categoria</Table.HeaderCell>
-                  <Table.HeaderCell>Valor Unitário</Table.HeaderCell>
-                  <Table.HeaderCell>Tempo de Entrega Mínimo</Table.HeaderCell>
-                  <Table.HeaderCell>Tempo de Entrega Máximo</Table.HeaderCell>
+                  <Table.HeaderCell>Regra</Table.HeaderCell>
+                  <Table.HeaderCell>Valor Desconto (R$)</Table.HeaderCell>
+                  <Table.HeaderCell>A partir de</Table.HeaderCell>
+                  <Table.HeaderCell>Terminando em</Table.HeaderCell>
                   <Table.HeaderCell textAlign='center'>Ações</Table.HeaderCell>
                 </Table.Row>
               </Table.Header>
 
               <Table.Body>
-                {lista.map((produto) => (
-                  <Table.Row key={produto.id}>
-                    <Table.Cell>{produto.titulo}</Table.Cell>
-                    <Table.Cell>{produto.codigo}</Table.Cell>
-                    <Table.Cell>{produto.categoria.descricao}</Table.Cell>
-                    <Table.Cell>{produto.valorUnitario}</Table.Cell>
-                    <Table.Cell>{produto.tempoEntregaMinimo}</Table.Cell>
-                    <Table.Cell>{produto.tempoEntregaMaximo}</Table.Cell>
+                {lista.map((promocao) => (
+                  <Table.Row key={promocao.titulo}>
+                    <Table.Cell>{promocao.regra}</Table.Cell>
+                    <Table.Cell>{promocao.valorDesconto}</Table.Cell>
+                    <Table.Cell>
+                      {formatarData(promocao.dataInicio)}
+                    </Table.Cell>
+                    <Table.Cell>
+                      {formatarData(promocao.dataFim)}
+                    </Table.Cell>
                     <Table.Cell textAlign='center'>
                       <Button
                         inverted
                         circular
                         color='green'
-                        title='Clique aqui para editar os dados deste produto'
+                        title='Clique aqui para editar os dados desta promoção'
                         icon
                       >
                         <Link
-                          to='/form-produto'
-                          state={{ id: produto.id }}
+                          to='/form-promocao'
+                          state={{ id: promocao.id }}
                           style={{ color: "green" }}
                         >
                           {" "}
-                          <Icon name='edit' />
+                          <Icon name='edit' />{" "}
                         </Link>
                       </Button>{" "}
                       &nbsp;
@@ -121,9 +122,9 @@ export default function ListProduto() {
                         inverted
                         circular
                         color='red'
-                        title='Clique aqui para remover este produto'
+                        title='Clique aqui para remover esta promoção'
                         icon
-                        onClick={e => confirmaRemover(produto.id)}
+                        onClick={e => confirmaRemover(promocao.id)}
                       >
                         <Icon name='trash' />
                       </Button>

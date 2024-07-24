@@ -208,8 +208,7 @@ export default function FormEntregador() {
                 <Form.Input
                   fluid
                   label='Data Nascimento'
-                  width
-
+                  width={3}
                   value={dataNascimento}
                   onChange={(e) => setDataNascimento(e.target.value)}
                 >
@@ -223,7 +222,7 @@ export default function FormEntregador() {
                 <Form.Input
                   fluid
                   label='Fone Celular'
-                  width={6}
+                  width={4}
                   value={foneCelular}
                   onChange={(e) => setFoneCelular(e.target.value)}
                 >
@@ -236,7 +235,7 @@ export default function FormEntregador() {
                 <Form.Input
                   fluid
                   label='Fone Fixo'
-                  width={6}
+                  width={4}
                   value={foneFixo}
                   onChange={(e) => setFoneFixo(e.target.value)}
                 >
@@ -248,16 +247,16 @@ export default function FormEntregador() {
 
                 <Form.Input
                   fluid
-                  label='QTD Entregas Realizadas'
-                  width={4}
+                  label='Entregas Realizadas'
+                  width={3}
                   value={qtdEntregas}
                   onChange={(e) => setQtdEntregas(e.target.value)}
                 ></Form.Input>
 
                 <Form.Input
                   fluid
-                  label='Valor Por Frete'
-                  width={4}
+                  label='Frete'
+                  width={2}
                   value={valorFrete}
                   onChange={(e) => setValorFrete(e.target.value)}
                 ></Form.Input>

@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from "react";
 import InputMask from "react-input-mask";
-import { Button, Container, Divider, Form, Icon } from "semantic-ui-react";
+import {
+  Button,
+  Container,
+  Divider,
+  Form,
+  Icon,
+  Select,
+} from "semantic-ui-react";
 import MenuSistema from "../menuSistema/MenuSistema";
 import axios from "axios";
 import { Link, useLocation } from "react-router-dom";
@@ -8,6 +15,8 @@ import { Link, useLocation } from "react-router-dom";
 export default function FormProduto() {
   const [titulo, setTitulo] = useState("");
   const [codigo, setCodigo] = useState("");
+  const [categoria, setCategoria] = useState("");
+  const [categorias, setCategorias] = useState([]);
   const [descricao, setDescricao] = useState("");
   const [valorUnitario, setValorUnitario] = useState("");
   const [tempoEntregaMinimo, setTempoEntregaMinimo] = useState("");
@@ -15,14 +24,39 @@ export default function FormProduto() {
   const { state } = useLocation();
   const [idProduto, setIdProduto] = useState();
 
+  const handleCategoryChange = (e, { value }) => {
+    setCategoria(value);
+  };
+
+  useEffect(() => {
+    async function fetchCategories() {
+      try {
+        const response = await axios.get(
+          "http://localhost:8080/api/categoriaproduto"
+        );
+        const categoryOptions = response.data.map((categoria) => ({
+          key: categoria.id,
+          value: categoria.id,
+          text: categoria.descricao,
+        }));
+        setCategorias(categoryOptions);
+      } catch (error) {
+        console.error("Erro ao buscar as categorias de produtos.", error);
+      }
+    }
+    fetchCategories();
+  }, []);
+
   useEffect(() => {
     if (state != null && state.id != null) {
       axios
         .get("http://localhost:8080/api/produto/" + state.id)
         .then((response) => {
+          console.log("Dados do produto carregados:", response.data);
           setIdProduto(response.data.id);
           setTitulo(response.data.titulo);
           setCodigo(response.data.codigo);
+          setCategoria(response.data.idCategoria);
           setDescricao(response.data.descricao);
           setValorUnitario(response.data.valorUnitario);
           setTempoEntregaMinimo(response.data.tempoEntregaMinimo);
@@ -35,20 +69,21 @@ export default function FormProduto() {
     let produtoRequest = {
       titulo: titulo,
       codigo: codigo,
+      idCategoria: categoria,
       descricao: descricao,
       valorUnitario: valorUnitario,
       tempoEntregaMinimo: tempoEntregaMinimo,
       tempoEntregaMaximo: tempoEntregaMaximo,
     };
 
-    if (idProduto != null ) {
+    if (idProduto != null) {
       axios
         .put("http://localhost:8080/api/produto/" + idProduto, produtoRequest)
         .then((response) => {
           console.log("Produto alterado com sucesso.");
         })
         .catch((error) => {
-          console.log("Erro ao alterar um produto.");
+          console.log("Erro ao alterar um produto.", error);
         });
     } else {
       axios
@@ -57,7 +92,7 @@ export default function FormProduto() {
           console.log("Produto cadastrado com sucesso.");
         })
         .catch((error) => {
-          console.log("Erro ao incluir o produto.");
+          console.log("Erro ao incluir o produto.", error);
         });
     }
   }
@@ -66,7 +101,7 @@ export default function FormProduto() {
     <div>
       <MenuSistema />
       <div style={{ marginTop: "3%" }}>
-        <Container textAlign='justified'>
+        <Container textAlign="justified">
           {idProduto === undefined && (
             <h2>
               {" "}
@@ -84,10 +119,7 @@ export default function FormProduto() {
               <span style={{ color: "darkgray" }}>
                 {" "}
                 Produto &nbsp;
-                <Icon
-                  name='angle double right'
-                  size='small'
-                />{" "}
+                <Icon name="angle double right" size="small" />{" "}
               </span>{" "}
               Alteração
             </h2>
@@ -115,6 +147,19 @@ export default function FormProduto() {
                 </Form.Input>
               </Form.Group>
 
+              <Form.Group>
+                <Form.Field width={16}>
+                  <label>Categoria</label>
+                  <Select
+                    required
+                    placeholder="Selecione a categoria"
+                    options={categorias}
+                    value={categoria}
+                    onChange={handleCategoryChange}
+                  />
+                </Form.Field>
+              </Form.Group>
+
               <Form.TextArea
                 label="Descrição"
                 value={descricao}
@@ -128,8 +173,7 @@ export default function FormProduto() {
                   width={6}
                   value={valorUnitario}
                   onChange={(e) => setValorUnitario(e.target.value)}
-                >
-                </Form.Input>
+                ></Form.Input>
 
                 <Form.Input
                   fluid
@@ -181,4 +225,4 @@ export default function FormProduto() {
       </div>
     </div>
   );
-};
+}

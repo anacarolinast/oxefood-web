@@ -1,33 +1,35 @@
-import React, { useEffect, useState } from "react"
-import InputMask from "react-input-mask"
-import { Button, Container, Divider, Form, Icon } from "semantic-ui-react"
-import MenuSistema from "../menuSistema/MenuSistema"
-import axios from "axios"
-import { Link, useLocation } from "react-router-dom"
+import React, { useEffect, useState } from "react";
+import InputMask from "react-input-mask";
+import { Button, Container, Divider, Form, Icon } from "semantic-ui-react";
+import MenuSistema from "../menuSistema/MenuSistema";
+import axios from "axios";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 export default function FormCliente() {
-  const [nome, setNome] = useState()
-  const [cpf, setCpf] = useState()
-  const [dataNascimento, setDataNascimento] = useState()
-  const [foneCelular, setFoneCelular] = useState()
-  const [foneFixo, setFoneFixo] = useState()
-  const { state } = useLocation()
-  const [idCliente, setIdCliente] = useState()
+  const [nome, setNome] = useState("");
+  const [cpf, setCpf] = useState("");
+  const [dataNascimento, setDataNascimento] = useState("");
+  const [foneCelular, setFoneCelular] = useState("");
+  const [foneFixo, setFoneFixo] = useState("");
+  const { state } = useLocation();
+  const [idCliente, setIdCliente] = useState();
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     if (state != null && state.id != null) {
       axios
         .get("http://localhost:8080/api/cliente/" + state.id)
         .then((response) => {
-          setIdCliente(response.data.id)
-          setNome(response.data.nome)
-          setCpf(response.data.cpf)
-          setDataNascimento(response.data.dataNascimento)
-          setFoneCelular(response.data.foneCelular)
-          setFoneFixo(response.data.foneFixo)
+          setIdCliente(response.data.id);
+          setNome(response.data.nome);
+          setCpf(response.data.cpf);
+          setDataNascimento(response.data.dataNascimento);
+          setFoneCelular(response.data.foneCelular);
+          setFoneFixo(response.data.foneFixo);
         })
+        .catch((error) => console.error("Erro ao buscar o cliente:", error));
     }
-  }, [state])
+  }, [state]);
 
   function salvar() {
     let clienteRequest = {
@@ -36,26 +38,27 @@ export default function FormCliente() {
       dataNascimento: dataNascimento,
       foneCelular: foneCelular,
       foneFixo: foneFixo,
-    }
+    };
 
     if (idCliente != null) {
       axios
         .put("http://localhost:8080/api/cliente/" + idCliente, clienteRequest)
         .then((response) => {
-          console.log("Cliente alterado com sucesso.")
+          console.log("Cliente alterado com sucesso.");
         })
         .catch((error) => {
-          console.log("Erro ao alterar um cliente.")
-        })
+          console.error("Erro ao alterar um cliente:", error);
+        });
     } else {
       axios
         .post("http://localhost:8080/api/cliente", clienteRequest)
         .then((response) => {
-          console.log("Cliente cadastrado com sucesso.")
+          console.log("Cliente cadastrado com sucesso.");
+          navigate("/form-endereco-cliente", { state: { idCliente: response.data.id } });
         })
         .catch((error) => {
-          console.log("Erro ao incluir o cliente.")
-        })
+          console.error("Erro ao incluir o cliente:", error);
+        });
     }
   }
 
@@ -65,7 +68,7 @@ export default function FormCliente() {
 
       <div style={{ marginTop: "3%" }}>
         <Container textAlign='justified'>
-          {idCliente === undefined && (
+          {idCliente === undefined ? (
             <h2>
               {" "}
               <span style={{ color: "darkgray" }}>
@@ -78,8 +81,7 @@ export default function FormCliente() {
               </span>{" "}
               Cadastro
             </h2>
-          )}
-          {idCliente != undefined && (
+          ) : (
             <h2>
               {" "}
               <span style={{ color: "darkgray" }}>
@@ -198,5 +200,5 @@ export default function FormCliente() {
         </Container>
       </div>
     </div>
-  )
+  );
 }
