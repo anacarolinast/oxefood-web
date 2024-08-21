@@ -4,6 +4,7 @@ import { Button, Container, Divider, Form, Icon, Select } from "semantic-ui-reac
 import MenuSistema from "../menuSistema/MenuSistema";
 import axios from "axios";
 import { Link, useLocation } from "react-router-dom";
+import { notifyError, notifySuccess } from '../../views/util/Util';
 
 export default function FormPedido() {
   const [dataPedido, setDataPedido] = useState("");
@@ -103,19 +104,19 @@ export default function FormPedido() {
       axios
         .put(`http://localhost:8080/api/pedido/${idPedido}`, pedidoRequest)
         .then(() => {
-          console.log("Pedido alterado com sucesso.");
+          notifySuccess("Pedido alterado com sucesso.");
         })
         .catch((error) => {
-          console.error("Erro ao alterar o pedido:", error);
+          notifyError("Erro ao alterar o pedido. Tente novamente.");
         });
     } else {
       axios
         .post("http://localhost:8080/api/pedido", pedidoRequest)
         .then(() => {
-          console.log("Pedido cadastrado com sucesso.");
+          notifySuccess("Pedido cadastrado com sucesso.");
         })
         .catch((error) => {
-          console.error("Erro ao incluir o pedido:", error);
+          notifyError("Erro ao incluir o pedido. Tente novamente.");
         });
     }
   };

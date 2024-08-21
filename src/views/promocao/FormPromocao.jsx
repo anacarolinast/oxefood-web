@@ -4,6 +4,7 @@ import { Button, Container, Divider, Form, Icon } from "semantic-ui-react"
 import MenuSistema from "../menuSistema/MenuSistema"
 import axios from "axios"
 import { Link, useLocation } from "react-router-dom"
+import { notifyError, notifySuccess } from '../../views/util/Util';
 
 export default function FormPromocao() {
   const [titulo, setTitulo] = useState()
@@ -42,19 +43,19 @@ export default function FormPromocao() {
       axios
         .put("http://localhost:8080/api/promocao/" + idPromocao, promocaoRequest)
         .then((response) => {
-          console.log("Promoção alterada com sucesso.")
+          notifySuccess("Promoção alterada com sucesso.");
         })
         .catch((error) => {
-          console.log("Erro ao alterar uma promoção.")
+          notifyError("Erro ao alterar a promoção. Tente novamente.");
         })
     } else {
       axios
         .post("http://localhost:8080/api/promocao", promocaoRequest)
         .then((response) => {
-          console.log("Promoção cadastrada com sucesso.")
+          notifySuccess("Promoção cadastrada com sucesso.")
         })
         .catch((error) => {
-          console.log("Erro ao incluir uma promoção.")
+          notifyError("Erro ao incluir uma promoção.")
         })
     }
   }

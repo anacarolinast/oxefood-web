@@ -11,6 +11,7 @@ import {
 import MenuSistema from "../menuSistema/MenuSistema";
 import axios from "axios";
 import { Link, useLocation } from "react-router-dom";
+import { notifyError, notifySuccess } from '../../views/util/Util';
 
 export default function FormProduto() {
   const [titulo, setTitulo] = useState("");
@@ -80,19 +81,19 @@ export default function FormProduto() {
       axios
         .put("http://localhost:8080/api/produto/" + idProduto, produtoRequest)
         .then((response) => {
-          console.log("Produto alterado com sucesso.");
+          notifySuccess("Produto alterado com sucesso.");
         })
         .catch((error) => {
-          console.log("Erro ao alterar um produto.", error);
+          notifyError("Erro ao alterar o produto. Tente novamente.");
         });
     } else {
       axios
         .post("http://localhost:8080/api/produto", produtoRequest)
         .then((response) => {
-          console.log("Produto cadastrado com sucesso.");
+          notifySuccess("Produto cadastrado com sucesso.");
         })
         .catch((error) => {
-          console.log("Erro ao incluir o produto.", error);
+          notifyError("Erro ao incluir o produto. Tente novamente.");
         });
     }
   }

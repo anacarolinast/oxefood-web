@@ -4,7 +4,7 @@ import { Button, Container, Divider, Form, Icon } from "semantic-ui-react";
 import MenuSistema from "../menuSistema/MenuSistema";
 import axios from "axios";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import {mensagemErro, notifyError, notifySuccess } from '../../views/util/Util';
+import { notifyError, notifySuccess } from '../../views/util/Util';
 
 export default function FormCliente() {
   const [nome, setNome] = useState("");
@@ -32,7 +32,16 @@ export default function FormCliente() {
     }
   }, [state]);
 
+  function validarTelefone(telefone) {
+    return telefone.startsWith("81");
+  }
+
   function salvar() {
+    if (!validarTelefone(foneCelular) || (foneFixo && !validarTelefone(foneFixo))) {
+      notifyError("Os telefones devem ter o prefixo 81.");
+      return;
+    }
+
     let clienteRequest = {
       nome: nome,
       cpf: cpf,
@@ -45,28 +54,28 @@ export default function FormCliente() {
       axios
         .put("http://localhost:8080/api/cliente/" + idCliente, clienteRequest)
         .then((response) => {
-          notifySuccess('Cliente alterado com sucesso.')
+          notifySuccess('Cliente alterado com sucesso.');
         })
         .catch((error) => {
           if (error.response) {
-            notifyError(error.response.data.message)
-            } else {
-            notifyError(mensagemErro)
-            }             
+            notifyError(error.response.data.message);
+          } else {
+            notifyError(mensagemErro);
+          }
         });
     } else {
       axios
         .post("http://localhost:8080/api/cliente", clienteRequest)
         .then((response) => {
-          notifySuccess('Cliente cadastrado com sucesso.')
+          notifySuccess('Cliente cadastrado com sucesso.');
           navigate("/form-endereco-cliente", { state: { idCliente: response.data.id } });
         })
         .catch((error) => {
           if (error.response) {
-            notifyError(error.response.data.message)
-            } else {
-            notifyError(mensagemErro)
-            } 
+            notifyError(error.response.data.message);
+          } else {
+            notifyError(mensagemErro);
+          }
         });
     }
   }
@@ -83,10 +92,7 @@ export default function FormCliente() {
               <span style={{ color: "darkgray" }}>
                 {" "}
                 Cliente &nbsp;
-                <Icon
-                  name='angle double right'
-                  size='small'
-                />{" "}
+                <Icon name='angle double right' size='small' />{" "}
               </span>{" "}
               Cadastro
             </h2>
@@ -96,10 +102,7 @@ export default function FormCliente() {
               <span style={{ color: "darkgray" }}>
                 {" "}
                 Cliente &nbsp;
-                <Icon
-                  name='angle double right'
-                  size='small'
-                />{" "}
+                <Icon name='angle double right' size='small' />{" "}
               </span>{" "}
               Alteração
             </h2>

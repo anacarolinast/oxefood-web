@@ -13,6 +13,7 @@ import {
 import MenuSistema from "../menuSistema/MenuSistema";
 import axios from "axios";
 import { Link, useLocation } from "react-router-dom";
+import { notifyError, notifySuccess } from '../../views/util/Util';
 
 export default function FormEntregador() {
   const [ufOptions, setUFOptions] = useState([]);
@@ -58,6 +59,7 @@ export default function FormEntregador() {
         setUFOptions(options);
       } catch (error) {
         console.error("Erro ao buscar os estados:", error);
+        notifyError("Erro ao buscar os estados. Tente novamente.");
       }
     }
 
@@ -86,50 +88,51 @@ export default function FormEntregador() {
           setUF(response.data.uf);
           setComplemento(response.data.complemento);
           setAtivo(response.data.ativo);
+        })
+        .catch((error) => {
+          console.error("Erro ao buscar o entregador:", error);
+          notifyError("Erro ao buscar o entregador. Tente novamente.");
         });
     }
   }, [state]);
 
   function salvar() {
     let entregadorRequest = {
-      nome: nome,
-      cpf: cpf,
-      rg: rg,
-      dataNascimento: dataNascimento,
-      foneCelular: foneCelular,
-      foneFixo: foneFixo,
-      qtdEntregas: qtdEntregas,
-      valorFrete: valorFrete,
-      rua: rua,
-      numero: numero,
-      bairro: bairro,
-      cidade: cidade,
-      cep: cep,
-      uf: uf,
-      complemento: complemento,
-      ativo: ativo
+      nome,
+      cpf,
+      rg,
+      dataNascimento,
+      foneCelular,
+      foneFixo,
+      qtdEntregas,
+      valorFrete,
+      rua,
+      numero,
+      bairro,
+      cidade,
+      cep,
+      uf,
+      complemento,
+      ativo
     };
 
     if (idEntregador != null) {
       axios
-        .put(
-          "http://localhost:8080/api/entregador/" + idEntregador,
-          entregadorRequest
-        )
+        .put("http://localhost:8080/api/entregador/" + idEntregador, entregadorRequest)
         .then((response) => {
-          console.log("Entregador alterado com sucesso.");
+          notifySuccess("Entregador alterado com sucesso.");
         })
         .catch((error) => {
-          console.log("Erro ao alterar um entregador.");
+          notifyError("Erro ao alterar o entregador. Tente novamente.");
         });
     } else {
       axios
         .post("http://localhost:8080/api/entregador", entregadorRequest)
         .then((response) => {
-          console.log("Entregador cadastrado com sucesso.");
+          notifySuccess("Entregador cadastrado com sucesso.");
         })
         .catch((error) => {
-          console.log("Erro ao incluir um entregador.");
+          notifyError("Erro ao incluir o entregador. Tente novamente.");
         });
     }
   }
