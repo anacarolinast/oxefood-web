@@ -19,7 +19,7 @@ class MenuSistema extends React.Component {
               active={this.state.activeItem === 'home'}
               onClick={this.handleItemClick}
               as={Link}
-              to="/"
+              to="/home"
             >
               <Icon name='home' />
               Home
@@ -150,8 +150,21 @@ class MenuSistema extends React.Component {
 
           <Search
             fluid
-            size={"large"}
+            size={"small"}
           />
+
+          <Menu>
+            <MenuItem
+              name='logout'
+              active={this.state.activeItem === 'logout'}
+              onClick={this.handleItemClick}
+              as={Link}
+              to="/"
+            >
+              <Icon name='sign-out' />
+              Logout
+            </MenuItem>
+          </Menu>
           
         </Menu>
       </>

@@ -9,16 +9,17 @@ export default function ListCliente() {
   const [openModal, setOpenModal] = useState(false);
   const [idRemover, setIdRemover] = useState();
 
+
   function confirmaRemover(id) {
     setOpenModal(true);
     setIdRemover(id);
   }
 
   async function remover() {
-    await axios.delete('http://localhost:8080/api/cliente/' + idRemover)
+    await axios.delete('http://localhost:8081/api/cliente/' + idRemover)
       .then((response) => {
         console.log('Cliente removido com sucesso.');
-        axios.get("http://localhost:8080/api/cliente")
+        axios.get("http://localhost:8081/api/cliente")
           .then((response) => {
             setLista(response.data);
           });
@@ -34,7 +35,7 @@ export default function ListCliente() {
   }, []);
 
   function carregarLista() {
-    axios.get("http://localhost:8080/api/cliente").then((response) => {
+    axios.get("http://localhost:8081/api/cliente").then((response) => {
       setLista(response.data);
     });
   }
@@ -47,6 +48,7 @@ export default function ListCliente() {
     let arrayData = dataParam.split("-");
     return arrayData[2] + "/" + arrayData[1] + "/" + arrayData[0];
   }
+
 
   return (
     <div>
@@ -121,7 +123,7 @@ export default function ListCliente() {
                         title='Clique aqui para ver os endereços deste cliente'
                         icon
                       >
-                        <Link to={`/list-endereco-cliente/${cliente.id}`} style={{ color: "blue" }}>
+                        <Link to={`/list-endereco-cliente/${cliente.id}`} state={{ id: cliente.id }} style={{ color: "blue" }}>
                           <Icon name='address card' />
                         </Link>
                       </Button>

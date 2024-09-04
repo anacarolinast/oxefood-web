@@ -12,7 +12,7 @@ export default function FormCategoria() {
     useEffect(() => {
       if (idCategoria) {
         axios
-          .get("http://localhost:8080/api/categoriaproduto")
+          .get("http://localhost:8081/api/categoriaproduto")
           .then((response) => {
             const categoria = response.data.find(cat => cat.id === idCategoria);
             if (categoria) {
@@ -35,7 +35,7 @@ export default function FormCategoria() {
 
     if (idCategoria != null) {
       axios
-        .put("http://localhost:8080/api/categoriaproduto/" + idCategoria, categoriaRequest)
+        .put("http://localhost:8081/api/categoriaproduto/" + idCategoria, categoriaRequest)
         .then((response) => {
           console.log("Categoria alterada com sucesso.");
         })
@@ -44,7 +44,7 @@ export default function FormCategoria() {
         });
     } else {
       axios
-        .post("http://localhost:8080/api/categoriaproduto", categoriaRequest)
+        .post("http://localhost:8081/api/categoriaproduto", categoriaRequest)
         .then((response) => {
           console.log("Categoria cadastrada com sucesso.");
         })

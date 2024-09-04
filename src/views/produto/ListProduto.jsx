@@ -32,11 +32,11 @@ export default function ListProduto() {
 
   async function remover() {
     await axios
-      .delete("http://localhost:8080/api/produto/" + idRemover)
+      .delete("http://localhost:8081/api/produto/" + idRemover)
       .then((response) => {
         console.log("Produto removido com sucesso.");
 
-        axios.get("http://localhost:8080/api/produto").then((response) => {
+        axios.get("http://localhost:8081/api/produto").then((response) => {
           setListaProdutos(response.data);
         });
       })
@@ -51,11 +51,11 @@ export default function ListProduto() {
   }, []);
 
   function carregarLista() {
-    axios.get("http://localhost:8080/api/produto").then((response) => {
+    axios.get("http://localhost:8081/api/produto").then((response) => {
       setListaProdutos(response.data);
     });
 
-    axios.get("http://localhost:8080/api/categoriaproduto").then((response) => {
+    axios.get("http://localhost:8081/api/categoriaproduto").then((response) => {
       const dropDownCategorias = [];
       dropDownCategorias.push({ text: "", value: "" });
       response.data.map((c) =>
@@ -112,7 +112,7 @@ export default function ListProduto() {
     }
 
     await axios
-      .post("http://localhost:8080/api/produto/filtrar", formData)
+      .post("http://localhost:8081/api/produto/filtrar", formData)
       .then((response) => {
         setListaProdutos(response.data);
       });

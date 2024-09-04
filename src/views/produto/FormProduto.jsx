@@ -33,7 +33,7 @@ export default function FormProduto() {
     async function fetchCategories() {
       try {
         const response = await axios.get(
-          "http://localhost:8080/api/categoriaproduto"
+          "http://localhost:8081/api/categoriaproduto"
         );
         const categoryOptions = response.data.map((categoria) => ({
           key: categoria.id,
@@ -51,7 +51,7 @@ export default function FormProduto() {
   useEffect(() => {
     if (state != null && state.id != null) {
       axios
-        .get("http://localhost:8080/api/produto/" + state.id)
+        .get("http://localhost:8081/api/produto/" + state.id)
         .then((response) => {
           console.log("Dados do produto carregados:", response.data);
           setIdProduto(response.data.id);
@@ -79,7 +79,7 @@ export default function FormProduto() {
 
     if (idProduto != null) {
       axios
-        .put("http://localhost:8080/api/produto/" + idProduto, produtoRequest)
+        .put("http://localhost:8081/api/produto/" + idProduto, produtoRequest)
         .then((response) => {
           notifySuccess("Produto alterado com sucesso.");
         })
@@ -88,7 +88,7 @@ export default function FormProduto() {
         });
     } else {
       axios
-        .post("http://localhost:8080/api/produto", produtoRequest)
+        .post("http://localhost:8081/api/produto", produtoRequest)
         .then((response) => {
           notifySuccess("Produto cadastrado com sucesso.");
         })

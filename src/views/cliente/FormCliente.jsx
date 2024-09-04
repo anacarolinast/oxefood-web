@@ -19,7 +19,7 @@ export default function FormCliente() {
   useEffect(() => {
     if (state != null && state.id != null) {
       axios
-        .get("http://localhost:8080/api/cliente/" + state.id)
+        .get("http://localhost:8081/api/cliente/" + state.id)
         .then((response) => {
           setIdCliente(response.data.id);
           setNome(response.data.nome);
@@ -52,7 +52,7 @@ export default function FormCliente() {
 
     if (idCliente != null) {
       axios
-        .put("http://localhost:8080/api/cliente/" + idCliente, clienteRequest)
+        .put("http://localhost:8081/api/cliente/" + idCliente, clienteRequest)
         .then((response) => {
           notifySuccess('Cliente alterado com sucesso.');
         })
@@ -65,7 +65,7 @@ export default function FormCliente() {
         });
     } else {
       axios
-        .post("http://localhost:8080/api/cliente", clienteRequest)
+        .post("http://localhost:8081/api/cliente", clienteRequest)
         .then((response) => {
           notifySuccess('Cliente cadastrado com sucesso.');
           navigate("/form-endereco-cliente", { state: { idCliente: response.data.id } });

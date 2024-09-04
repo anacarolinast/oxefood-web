@@ -16,12 +16,12 @@ export default function ListEntregador() {
 
   async function remover() {
 
-    await axios.delete('http://localhost:8080/api/entregador/' + idRemover)
+    await axios.delete('http://localhost:8081/api/entregador/' + idRemover)
     .then((response) => {
 
         console.log('Entregador removido com sucesso.')
 
-        axios.get("http://localhost:8080/api/entregador")
+        axios.get("http://localhost:8081/api/entregador")
         .then((response) => {
             setLista(response.data)
         })
@@ -37,7 +37,7 @@ export default function ListEntregador() {
   }, [])
 
   function carregarLista() {
-    axios.get("http://localhost:8080/api/entregador").then((response) => {
+    axios.get("http://localhost:8081/api/entregador").then((response) => {
       setLista(response.data)
     })
   }

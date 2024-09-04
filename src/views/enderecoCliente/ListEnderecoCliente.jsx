@@ -8,16 +8,20 @@ export default function ListEnderecoCliente() {
   const [lista, setLista] = useState([]);
   const [openModal, setOpenModal] = useState(false);
   const [idRemover, setIdRemover] = useState(null);
-  const { id } = useParams(); 
+  const { id } = useParams();
 
   useEffect(() => {
-    carregarLista();
+    if (id) {
+      carregarLista();
+    }
   }, [id]);
 
   function carregarLista() {
-    axios.get(`http://localhost:8080/api/cliente/${id}`)
+    console.log("Carregando lista para o ID:", id);
+    axios.get(`http://localhost:8081/api/cliente/${id}/enderecos`)
       .then((response) => {
-        setLista(response.data.enderecos || []);
+        console.log("Resposta da API:", response.data);
+        setLista(response.data || []);
       })
       .catch(error => {
         console.error("Erro ao carregar a lista de endereços:", error);
@@ -26,15 +30,17 @@ export default function ListEnderecoCliente() {
   }
 
   function confirmaRemover(id) {
+    console.log("Confirmar remoção do ID:", id);
     setOpenModal(true);
     setIdRemover(id);
   }
 
   async function remover() {
+    console.log("Remover endereço com ID:", idRemover);
     try {
-      await axios.delete(`http://localhost:8080/api/cliente/endereco/${idRemover}`);
+      await axios.delete(`http://localhost:8081/api/cliente/endereco/${idRemover}`);
       console.log('Endereço removido com sucesso.');
-      carregarLista(); 
+      carregarLista();
     } catch (error) {
       console.error('Erro ao remover o endereço:', error);
     } finally {
@@ -59,6 +65,7 @@ export default function ListEnderecoCliente() {
               floated='right'
               as={Link}
               to={`/form-endereco-cliente`}
+              state={{ idCliente: id }}
             />
             <br />
             <br />

@@ -19,27 +19,33 @@ export default function FormEnderecoCliente() {
   const location = useLocation();
 
   useEffect(() => {
-    const { idCliente, idEndereco } = location.state || {};
+    if (location.state) {
+      const { idEndereco, idCliente } = location.state;
 
-    if (idCliente) {
-      setIdCliente(idCliente);
-    }
+      console.log("Localização do estado:", location.state);
+      console.log("ID Endereço:", idEndereco);
 
-    if (idEndereco) {
+      if (idCliente) {
+        setIdCliente(idCliente);
+      }
+
+      if (idEndereco) {
         setIdEndereco(idEndereco);
-        console.log("ID do endereço:", idEndereco);
+
         axios
-          .get(`http://localhost:8080/api/cliente/${idCliente}`)
+          .get(`http://localhost:8081/api/cliente/${idCliente}`)
           .then((response) => {
-            console.log("Resposta da API do cliente:", response.data);
+            console.log("Resposta da API:", response.data);
+
             if (response.data) {
-              const { enderecos } = response.data;
-              console.log("Endereços do cliente:", enderecos);
-  
+              const { cliente, enderecos } = response.data;
+              console.log("Cliente:", cliente);
+              console.log("Endereços:", enderecos);
+
               const endereco = enderecos.find(
                 (endereco) => endereco.id === idEndereco
               );
-  
+
               if (endereco) {
                 console.log("Endereço encontrado:", endereco);
                 const { rua, numero, bairro, cidade, cep, uf, complemento } = endereco;
@@ -59,7 +65,8 @@ export default function FormEnderecoCliente() {
             console.error("Erro ao buscar o cliente:", error);
           });
       }
-    }, [location]);
+    }
+  }, [location.state]);
 
   useEffect(() => {
     async function fetchStates() {
@@ -97,9 +104,12 @@ export default function FormEnderecoCliente() {
       complemento,
     };
 
+    console.log("ID do Cliente no Salvamento:", idCliente);
+    console.log("Dados do Endereço para Salvamento:", enderecoClienteRequest);
+
     if (idEndereco) {
       axios
-        .put(`http://localhost:8080/api/cliente/endereco/${idEndereco}`, enderecoClienteRequest)
+        .put(`http://localhost:8081/api/cliente/endereco/${idEndereco}`, enderecoClienteRequest)
         .then(() => {
           console.log("Endereço salvo com sucesso.");
           navigate("/list-cliente");
@@ -109,7 +119,7 @@ export default function FormEnderecoCliente() {
         });
     } else if (idCliente) {
       axios
-        .post(`http://localhost:8080/api/cliente/endereco/${idCliente}`, enderecoClienteRequest)
+        .post(`http://localhost:8081/api/cliente/endereco/${idCliente}`, enderecoClienteRequest)
         .then(() => {
           console.log("Endereço salvo com sucesso.");
           navigate("/list-cliente");

@@ -50,7 +50,7 @@ export default function FormPedido() {
   useEffect(() => {
     if (state != null && state.id != null) {
       axios
-        .get(`http://localhost:8080/api/pedido/${state.id}`)
+        .get(`http://localhost:8081/api/pedido/${state.id}`)
         .then((response) => {
           const {
             id,
@@ -102,7 +102,7 @@ export default function FormPedido() {
 
     if (idPedido != null) {
       axios
-        .put(`http://localhost:8080/api/pedido/${idPedido}`, pedidoRequest)
+        .put(`http://localhost:8081/api/pedido/${idPedido}`, pedidoRequest)
         .then(() => {
           notifySuccess("Pedido alterado com sucesso.");
         })
@@ -111,7 +111,7 @@ export default function FormPedido() {
         });
     } else {
       axios
-        .post("http://localhost:8080/api/pedido", pedidoRequest)
+        .post("http://localhost:8081/api/pedido", pedidoRequest)
         .then(() => {
           notifySuccess("Pedido cadastrado com sucesso.");
         })
